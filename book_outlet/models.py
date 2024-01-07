@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.urls import reverse
 
 # Create your models here.
 
@@ -8,6 +9,10 @@ class Book(models.Model):
     rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     author = models.CharField(null=True, max_length=100)
     is_bestselling = models.BooleanField(default=False)
+
+    def get_absolute_url(self):
+        return reverse("book-detail", args=[self.id])
+    
 
     # when print with Book.objects.all()
     # it was displaying cryptic output
@@ -21,3 +26,10 @@ class Book(models.Model):
     # python3 manage.py shell
     # from book_outlet.models import Book
     # Book.objects.all()/first()/last()
+    # Book.objects.get() => gets only 1 value, if there are 2 that matches criteria => throws error
+    # To get multiple entries based on the searched criteria
+        # Book.objects.filter(criteria)
+    # less than|less than equal => filter(criteria__lt|lte=3)
+
+    # from django.db.models import Q (or operator)
+        # Book.objects.filter(Q(rating__lt=3) | Q(is_bestselling=True))
