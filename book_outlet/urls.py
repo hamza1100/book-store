@@ -3,5 +3,6 @@ from . import views
 
 urlpatterns = [
         path("", views.index),
-        path('<int:id>', views.book_detail, name='book-detail')
+        # need to add slug property in db entries. therefore, app won't work now.
+        path('<slug:slug>', views.book_detail, name='book-detail')
 ]
