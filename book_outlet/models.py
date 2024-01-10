@@ -10,14 +10,14 @@ class Book(models.Model):
     rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     author = models.CharField(null=True, max_length=100)
     is_bestselling = models.BooleanField(default=False)
-    slug = models.SlugField(default='', null=False, db_index=True)
+    slug = models.SlugField(default='', blank=True, null=False, db_index=True)
 
     def get_absolute_url(self):
         return reverse("book-detail", args=[self.slug])
     
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
-        return super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.slug = slugify(self.title)
+    #     return super().save(*args, **kwargs)
 
     # when print with Book.objects.all()
     # it was displaying cryptic output
